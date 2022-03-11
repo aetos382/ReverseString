@@ -20,39 +20,39 @@ public static class StringExtensions
 
         return string.Create(str.Length, str, static (buffer, str) => {
 
-            const int MaximumStackAllocateSize = 256;
+            const int MaximumStackAllocationLength = 256;
 
             var pool = ArrayPool<int>.Shared;
             int[]? arrayToReturnToPool = null;
 
-            var indexesLength = str.Length + 1;
+            var indicesLength = str.Length + 1;
 
             try
             {
-                Span<int> indexes = indexesLength <= MaximumStackAllocateSize
-                    ? stackalloc int[indexesLength]
-                    : arrayToReturnToPool = pool.Rent(indexesLength);
+                Span<int> indices = indicesLength <= MaximumStackAllocationLength
+                    ? stackalloc int[indicesLength]
+                    : arrayToReturnToPool = pool.Rent(indicesLength);
 
                 var source = str.AsSpan();
 
                 for (int i = 0, index = 0;; ++i)
                 {
-                    indexes[i] = index;
+                    indices[i] = index;
 
                     var length = StringInfo.GetNextTextElementLength(source.Slice(index));
                     if (length == 0)
                     {
-                        indexesLength = i + 1;
+                        indicesLength = i + 1;
                         break;
                     }
 
                     index += length;
                 }
 
-                for (int i = indexesLength - 1; i >= 1; --i)
+                for (int i = indicesLength - 1; i >= 1; --i)
                 {
-                    var start = indexes[i - 1];
-                    var length = indexes[i] - start;
+                    var start = indices[i - 1];
+                    var length = indices[i] - start;
 
                     source.Slice(start, length).CopyTo(buffer);
                     buffer = buffer.Slice(length);
