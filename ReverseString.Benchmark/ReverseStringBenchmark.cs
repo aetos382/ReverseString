@@ -1,14 +1,16 @@
-﻿using System.Text;
+﻿namespace ReverseString.Benchmark;
+
+using System.Text;
 
 using BenchmarkDotNet.Attributes;
 
-namespace ReverseString.Benchmark;
-
 [MemoryDiagnoser]
 [ShortRunJob]
+[MinColumn]
+[MaxColumn]
 public class ReverseStringBenchmark
 {
-    public string Value;
+    public string Value = string.Empty;
 
     [Params(100, 1000, 1000, 10000, 100000)]
     public int Count { get; set; }

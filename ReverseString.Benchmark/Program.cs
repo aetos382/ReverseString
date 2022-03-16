@@ -1,6 +1,6 @@
-﻿using BenchmarkDotNet.Running;
+﻿namespace ReverseString.Benchmark;
 
-namespace ReverseString.Benchmark;
+using BenchmarkDotNet.Running;
 
 public static class Program
 {

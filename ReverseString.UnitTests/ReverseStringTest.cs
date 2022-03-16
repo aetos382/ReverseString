@@ -1,8 +1,8 @@
-﻿using System.Text;
+﻿namespace ReverseString.UnitTests;
+
+using System.Text;
 
 using Xunit;
-
-namespace ReverseString.UnitTests;
 
 public class ReverseStringTest
 {
